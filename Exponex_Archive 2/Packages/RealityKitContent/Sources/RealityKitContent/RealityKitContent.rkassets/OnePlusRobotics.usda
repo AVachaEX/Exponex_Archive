@@ -1,0 +1,404 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.60.4)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "Alurbeztextur" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+        references = @OnePlus_parts/Alurbeztextur.usdz@
+    )
+    {
+        rel material:binding = </Root/Alurbeztextur/Materials/Material_1> (
+            bindMaterialAs = "strongerThanDescendants"
+        )
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            reorder nameChildren = ["Material_1", "Material"]
+            over "Material" (
+                active = false
+            )
+            {
+                token inputs:frame:stPrimvarName = "st" (
+                    customData = {
+                        dictionary realitykit = {
+                            bool hide = 1
+                        }
+                    }
+                )
+                token outputs:mtlx:surface.connect = </Root/Alurbeztextur/Materials/Material/PreviewSurface.outputs:out>
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Alurbeztextur/Materials/Material/MaterialPreviewSurface.outputs:surface>
+                float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+                def Shader "diffuseColor"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Diffuse_Alur.jpg@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material/diffuseColor/TexCoordReader.outputs:result>
+                    color3f outputs:rgb
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+
+                over "MaterialPreviewSurface" (
+                    active = true
+                )
+                {
+                }
+
+                def Shader "metallic"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Metallic_Alur.png@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material/metallic/TexCoordReader.outputs:result>
+                    float outputs:r
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+
+                def Shader "roughness"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Roughness_Alur.png@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material/roughness/TexCoordReader.outputs:result>
+                    float outputs:r
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+
+                def Shader "PreviewSurface" (
+                    active = false
+                )
+                {
+                    uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (-255, 105)
+                }
+            }
+
+            def Material "Material_1"
+            {
+                token inputs:frame:stPrimvarName = "st" (
+                    customData = {
+                        dictionary realitykit = {
+                            bool hide = 1
+                        }
+                    }
+                )
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Alurbeztextur/Materials/Material_1/UsdPreviewSurface.outputs:surface>
+
+                def Shader "UsdPreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.18, 0.18, 0.18)
+                    color3f inputs:diffuseColor.connect = </Root/Alurbeztextur/Materials/Material_1/diffuseColor.outputs:rgb>
+                    float inputs:metallic = 0
+                    float inputs:metallic.connect = </Root/Alurbeztextur/Materials/Material_1/metallic.outputs:r>
+                    float inputs:roughness = 0.5
+                    float inputs:roughness.connect = </Root/Alurbeztextur/Materials/Material_1/roughness.outputs:r>
+                    token outputs:surface
+                }
+
+                def Shader "diffuseColor"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Diffuse_Alur.jpg@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material_1/diffuseColor/TexCoordReader.outputs:result>
+                    color3f outputs:rgb
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material_1.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+
+                def Shader "roughness"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Roughness_Alur.png@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material_1/roughness/TexCoordReader.outputs:result>
+                    float outputs:r
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material_1.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+
+                def Shader "metallic"
+                {
+                    uniform token info:id = "UsdUVTexture"
+                    asset inputs:file = @Textury/Metallic_Alur.png@
+                    float2 inputs:st.connect = </Root/Alurbeztextur/Materials/Material_1/metallic/TexCoordReader.outputs:result>
+                    float outputs:r
+
+                    def Shader "TexCoordReader"
+                    {
+                        uniform token info:id = "UsdPrimvarReader_float2"
+                        token inputs:varname.connect = </Root/Alurbeztextur/Materials/Material_1.inputs:frame:stPrimvarName>
+                        float2 outputs:result
+                    }
+                }
+            }
+        }
+    }
+
+    def "OnePlus_steny" (
+        active = true
+        references = @OnePlus_parts/OnePlus steny.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            over "Material_018"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "OnePlus_nabytek" (
+        active = true
+        references = @OnePlus_parts/OnePlus_nabytek.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            def Material "Material_018" (
+                prepend references = </Root/OnePlus_steny/Materials/Material_018>
+            )
+            {
+                token outputs:displacement.connect = </Root/OnePlus_nabytek/Materials/Material_018/Material_018PreviewSurface.outputs:displacement>
+                token outputs:surface.connect = </Root/OnePlus_nabytek/Materials/Material_018/Material_018PreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (964, 174)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def Shader "Material_018PreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+                    color3f inputs:emissiveColor = (1, 1, 1)
+                    normal3f inputs:normal = (0, 0, 0)
+                    float inputs:occlusion = 1
+                    float inputs:opacity = 1
+                    token outputs:displacement
+                    token outputs:surface
+                }
+            }
+
+            over "Material_015"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "OnePlus_podlaha" (
+        active = true
+        references = @OnePlus_parts/OnePlus_podlaha.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            def Material "Material_015" (
+                prepend references = </Root/OnePlus_nabytek/Materials/Material_015>
+            )
+            {
+                token outputs:displacement.connect = </Root/OnePlus_podlaha/Materials/Material_015/Material_015PreviewSurface.outputs:displacement>
+                token outputs:surface.connect = </Root/OnePlus_podlaha/Materials/Material_015/Material_015PreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (964, 174)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def Shader "Material_015PreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+                    color3f inputs:emissiveColor = (1, 1, 1)
+                    normal3f inputs:normal = (0, 0, 0)
+                    float inputs:occlusion = 1
+                    float inputs:opacity = 1
+                    token outputs:displacement
+                    token outputs:surface
+                }
+            }
+
+            over "Material_020"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "OnePlus_pult" (
+        active = true
+        references = @OnePlus_parts/OnePlus_pult.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            def Material "Material_020" (
+                prepend references = </Root/OnePlus_podlaha/Materials/Material_020>
+            )
+            {
+                token outputs:displacement.connect = </Root/OnePlus_pult/Materials/Material_020/Material_020PreviewSurface.outputs:displacement>
+                token outputs:surface.connect = </Root/OnePlus_pult/Materials/Material_020/Material_020PreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (964, 174)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def Shader "Material_020PreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+                    color3f inputs:emissiveColor = (1, 1, 1)
+                    normal3f inputs:normal = (0, 0, 0)
+                    float inputs:occlusion = 1
+                    float inputs:opacity = 1
+                    token outputs:displacement
+                    token outputs:surface
+                }
+            }
+
+            over "Material_019"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "OnePlus_robot" (
+        active = true
+        references = @OnePlus_parts/OnePlus_robot.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            def Material "Material_019" (
+                prepend references = </Root/OnePlus_pult/Materials/Material_019>
+            )
+            {
+                token outputs:displacement.connect = </Root/OnePlus_robot/Materials/Material_019/Material_019PreviewSurface.outputs:displacement>
+                token outputs:surface.connect = </Root/OnePlus_robot/Materials/Material_019/Material_019PreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (964, 174)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def Shader "Material_019PreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+                    color3f inputs:emissiveColor = (1, 1, 1)
+                    normal3f inputs:normal = (0, 0, 0)
+                    float inputs:occlusion = 1
+                    float inputs:opacity = 1
+                    token outputs:displacement
+                    token outputs:surface
+                }
+            }
+
+            over "Material_021"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "OnePlus_skla" (
+        active = true
+        references = @OnePlus_parts/OnePlus_skla.usdz@
+    )
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        float3 xformOp:translate = (0, 1.1920929e-7, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Materials"
+        {
+            def Material "Material_021" (
+                prepend references = </Root/OnePlus_robot/Materials/Material_021>
+            )
+            {
+                token outputs:displacement.connect = </Root/OnePlus_skla/Materials/Material_021/Material_021PreviewSurface.outputs:displacement>
+                token outputs:surface.connect = </Root/OnePlus_skla/Materials/Material_021/Material_021PreviewSurface.outputs:surface>
+                float2 ui:nodegraph:node:pos = (964, 174)
+                int ui:nodegraph:node:stackingOrder = 1
+
+                def Shader "Material_021PreviewSurface"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.8, 0.8, 0.8)
+                    color3f inputs:emissiveColor = (1, 1, 1)
+                    normal3f inputs:normal = (0, 0, 0)
+                    float inputs:occlusion = 1
+                    float inputs:opacity = 1
+                    token outputs:displacement
+                    token outputs:surface
+                }
+            }
+        }
+    }
+}
+
